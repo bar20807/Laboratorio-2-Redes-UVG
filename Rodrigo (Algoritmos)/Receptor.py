@@ -71,7 +71,7 @@ def ErrorCorrector(data_received):
         return corrected_data
 
 # Solicitar la trama al usuario
-data_received = input("Ingrese la trama recibida (trama + bit de paridad): ")
+data_received = input("Ingrese la trama recibida (trama + bit de paridad modificado manualmente): ")
 
 ErrorCorrector(data_received)
 
