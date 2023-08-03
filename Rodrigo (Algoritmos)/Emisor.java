@@ -49,7 +49,10 @@ public class Emisor {
 
 
     public static void main(String[] args) {
-        String data = "1011";
+        
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Enter data: ");
+        String data = sc.nextLine();
         int m = data.length();
         int r = calcRedundantBits(m);
         String arr = posRedundantBits(data, r);
