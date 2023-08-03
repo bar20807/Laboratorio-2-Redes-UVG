@@ -48,8 +48,6 @@ def crc_calculation(trama_bits, crc):
 crc_32 = [1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 0, 1]
 crc_3 = [1, 0, 0, 1]
 
-print(len(crc_32))
-
 # Obtener la trama del usuario y convertirla en una lista de enteros
 print("Ingrese la trama (solo 0s y 1s): ")
 trama = input()
@@ -71,4 +69,5 @@ trama_con_crc = trama_bits[:-(len(crc)-1)] + crc_result
 
 # Imprimir la trama con CRC para enviar al receptor
 print("Trama con CRC para enviar al receptor:")
-print(trama_con_crc)
+result = ''.join(str(bit) for bit in trama_con_crc)
+print(result)
