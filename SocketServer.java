@@ -1,10 +1,13 @@
 import java.io.*;
 import java.net.*;
+
 // import crc.crc_receptor;
 
 public class SocketServer {
     public static void main(String[] args) throws IOException {
         int port = 12345;
+        int successes = 0;
+        int failures = 0;
         try (ServerSocket serverSocket = new ServerSocket(port)) {
             while (true) {
                 try (Socket clientSocket = serverSocket.accept();
@@ -33,6 +36,23 @@ public class SocketServer {
                                 System.out.println("Error no se pudo debido a que el mensaje esta incorrecto");
                             }
                         } else {
+                            String inputData = data[0];
+                            int deci = Integer.parseInt(data[1]);
+                            if (deci == 1) {
+                                clientInput = crc.crc_receptor.inputReciever(inputData);
+                            } else {
+                                clientInput = inputData;
+                                System.out.println("codigo para el hamming");
+                            }
+
+                            if (clientInput != "Error") {
+                                // System.out.println("Received modified: " + clientInput);
+                                successes += 1;
+                                System.out.println("successes: " + successes);
+                            } else {
+                                failures += 1;
+                                System.out.println("failures: " + failures);
+                            }
 
                         }
 
@@ -43,6 +63,7 @@ public class SocketServer {
             System.out.println("Exception caught when trying to listen on port " + port);
             System.out.println(e.getMessage());
         }
+
     }
 
     public static String convertBinaryToText(String binaryString) {
