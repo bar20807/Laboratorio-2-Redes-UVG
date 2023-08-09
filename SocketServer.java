@@ -12,12 +12,28 @@ public class SocketServer {
                     String clientInput;
                     while ((clientInput = in.readLine()) != null) {
                         // System.out.println("Received: " + clientInput);
-                        clientInput = crc.crc_receptor.inputReciever(clientInput);
-                        if (clientInput != "Error") {
-                            // System.out.println("Received modified: " + clientInput);
-                            System.out.println(convertBinaryToText(clientInput));
+                        String[] data = clientInput.split(",");
+
+                        int scanner = Integer.parseInt(data[2]);
+                        if (scanner == 1) {
+                            String inputData = data[0];
+
+                            int deci = Integer.parseInt(data[1]);
+                            if (deci == 1) {
+                                clientInput = crc.crc_receptor.inputReciever(inputData);
+                            } else {
+                                clientInput = inputData;
+                                System.out.println("codigo para el hamming");
+                            }
+
+                            if (clientInput != "Error") {
+                                // System.out.println("Received modified: " + clientInput);
+                                System.out.println(convertBinaryToText(clientInput));
+                            } else {
+                                System.out.println("Error no se pudo debido a que el mensaje esta incorrecto");
+                            }
                         } else {
-                            System.out.println("Error no se pudo debido a que el mensaje esta incorrecto");
+
                         }
 
                     }
