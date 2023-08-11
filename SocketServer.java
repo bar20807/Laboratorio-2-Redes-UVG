@@ -1,7 +1,7 @@
 import java.io.*;
 import java.net.*;
-
-// import crc.crc_receptor;
+import crc.crc_receptor;
+import Rodrigo.Receptor;
 
 public class SocketServer {
     public static void main(String[] args) throws IOException {
@@ -14,6 +14,7 @@ public class SocketServer {
                         BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()))) {
                     String clientInput;
                     while ((clientInput = in.readLine()) != null) {
+                        //System.out.println("Este es clientInput: " + clientInput);
                         // System.out.println("Received: " + clientInput);
                         String[] data = clientInput.split(",");
 
@@ -24,13 +25,16 @@ public class SocketServer {
                             int deci = Integer.parseInt(data[1]);
                             if (deci == 1) {
                                 clientInput = crc.crc_receptor.inputReciever(inputData);
-                            } else {
-                                clientInput = inputData;
-                                System.out.println("codigo para el hamming");
+                            } else if (deci == 2 ) {
+                                System.out.println("Data que le llega al hamming: "  + inputData); 
+                                clientInput = Rodrigo.Receptor.ErrorCorrector(inputData);
+                            }
+                            else {
+                                System.out.println("ERROR, no existe dicha opción");
                             }
 
                             if (clientInput != "Error") {
-                                // System.out.println("Received modified: " + clientInput);
+                                System.out.println("Received modified: " + clientInput);
                                 System.out.println(convertBinaryToText(clientInput));
                             } else {
                                 System.out.println("Error no se pudo debido a que el mensaje esta incorrecto");
@@ -40,23 +44,23 @@ public class SocketServer {
                             int deci = Integer.parseInt(data[1]);
                             if (deci == 1) {
                                 clientInput = crc.crc_receptor.inputReciever(inputData);
-                            } else {
-                                clientInput = inputData;
-                                System.out.println("codigo para el hamming");
+                            } else if (deci == 2 ){
+                                clientInput = Rodrigo.Receptor.ErrorCorrector(inputData);
                             }
 
                             if (clientInput != "Error") {
                                 // System.out.println("Received modified: " + clientInput);
                                 successes += 1;
-                                System.out.println("successes: " + successes);
+                                //System.out.println("successes: " + successes);
                             } else {
                                 failures += 1;
-                                System.out.println("failures: " + failures);
-                            }
-
+                                //System.out.println("failures: " + failures);
+                            }    
                         }
-
                     }
+                    
+                    System.out.println("Total successes: " + successes);
+                    System.out.println("Total failures: " + failures);
                 }
             }
         } catch (IOException e) {

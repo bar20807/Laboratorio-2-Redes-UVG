@@ -63,7 +63,7 @@ public class crc_receptor {
         // Elegir el CRC deseado (crc_3 o crc_32)
         List<Integer> crc = crc_32; // Cambiar a crc_32 si se quiere usar CRC-32
         System.out.println("trama bits");
-        System.out.println(tramaBits.toString());
+        System.out.println("Verifico qué es esto: " + tramaBits.toString());
 
         // Calcular los últimos bits del CRC según la longitud del CRC
         boolean crcResult = crcCalculation(tramaBits, crc);

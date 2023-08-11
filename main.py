@@ -4,6 +4,8 @@ from crc.crc_emisor import *
 import random
 import matplotlib.pyplot as plt
 import numpy as np
+from Rodrigo.Emisor import *
+
 
 def apply_noise(data, error_probability):
     noisy_data = ''
@@ -23,6 +25,14 @@ def generate_example_text():
         example_texts.append(example_text)
     return example_texts
 
+def graph_results(successes, failures):  
+    labels = ['Successes', 'Failures']
+    values = [successes, failures]
+    plt.bar(labels, values, color=['green', 'red'])
+    plt.xlabel('Results')
+    plt.ylabel('Count')
+    plt.title('Successes vs Failures')
+    plt.show()
 
 def text_to_binary(text):
     return ''.join(format(ord(c), '08b') for c in text)
@@ -40,11 +50,13 @@ if __name__ == "__main__":
         print("=======================")
         print("1. Enviar mensaje")
         print("2. Realizar simulacion")
-        print("3. Salir")
+        print("3. Mostrar resultados de la simulación")
+        print("4. Salir")
         scanner = int(input("Ingrese una opcion: ")) # convert input to int
         if scanner == 1:
             data = input("Ingresa el mensaje a enviar: ")
             data = text_to_binary(data)
+            print("Data convertida a binario: ", data)
             escogido = True
             while escogido:
                 print("=======================")
@@ -56,7 +68,8 @@ if __name__ == "__main__":
                     data = inputText(data)
                     escogido = False
                 elif deci == 2:
-                    pass
+                    data = calculate_data(data)
+                    print("Nueva data pasada hamming: ", data)
                     escogido = False
                 else:
                     print("Error escoja una opcion")
@@ -85,15 +98,17 @@ if __name__ == "__main__":
                     data = inputText(data)
                     escogido = False
                 elif deci == 2:
-                    pass
+                    data = calculate_data(data)
                     escogido = False
 
                 error_probability = 0.01
                 data = apply_noise(data, error_probability)
                 send_data(data, port, deci, scanner)
-
-
         elif scanner == 3:
+            successes = int(input("Ingrese el dato successes para la gráfica: "))
+            failures = int(input("Ingrese el dato failures para la gráfica: "))
+            graph_results(successes, failures)
+        elif scanner == 4:
             print("Saliendo")
             seguir = False
         else:
